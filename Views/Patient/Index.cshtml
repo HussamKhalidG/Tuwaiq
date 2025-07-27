@@ -1,0 +1,71 @@
+﻿@model PatientFilteredVM
+
+<h1>Hello</h1>
+
+<p>Welcome to the patient index page.</p>
+
+<h4>
+    # Patients @Model.Data.Count
+    <a asp-Controller="Patient" asp-action="Create">Create</a>
+</h4>
+
+<div class="">
+    <form class="row row-cols-lg-auto g-3 align-items-center">
+        <div class="col-12">
+            <input class="form-control" type="text" asp-for="Filters.Id" placeholder="Filter by Id" aria-label="Filter by Id">
+        </div>
+        <div class="col-12">
+            <input class="form-control" asp-for="Filters.FullName" placeholder="Filter by Full Name" aria-label="Filter by Full Name">
+        </div>
+        <div class="col-12">
+            <input class="form-control" asp-for="Filters.NationalId" placeholder="Filter by NationalId" aria-label="Filter by NationalId">
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-outline-secondary">Search</button>
+        </div>
+    </form>
+    <p>
+        Current Filter: @Model.Filters.FullName
+    </p>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Full Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Age</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var patient in Model.Data)
+        {
+            <tr>
+                <td>@patient.FullName</td>
+                <td>@patient.Email</td>
+                <td>@patient.Age</td>
+                <td>
+                    <a asp-Controller="Patient" asp-action="Pdetails" asp-route-id="@patient.Id">Details</a>
+                    <a asp-Controller="Patient" asp-action="Update" asp-route-id="@patient.Id">Update</a>
+                    <a asp-Controller="Patient" asp-action="Delete" asp-route-id="@patient.Id">Delete</a>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+<h4>
+    @foreach (var patient in Model.Data)
+    {
+
+        <a asp-Controller="Patient" asp-action="Pdetails" asp-route-id="@patient.Id">
+            <span>@patient.FullName</span>
+            <br />
+        </a>
+
+    }
+</h4>
