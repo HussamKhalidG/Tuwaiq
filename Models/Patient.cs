@@ -18,6 +18,8 @@ namespace Website1.Models
 
         public int Age => Convert.ToInt32((DateTime.Today - DateOfBirth).TotalDays / 365);
 
+        public List<Appointment> Appointments { get; set; }
+
         public PatientVM ToPatientVM()
         {
             return new PatientVM
@@ -27,7 +29,16 @@ namespace Website1.Models
                 DateOfBirth = DateOfBirth,
                 Email = Email,
                 NationalId = NationalId,
-                PhoneNumber = PhoneNumber
+                PhoneNumber = PhoneNumber,
+
+                Appointments = Appointments?.Select(a => new AppointmentVM
+                {
+                    Id = a.Id,
+                    AppointmentDate = a.AppointmentDate,
+                    DoctorId = a.DoctorId,
+                    PatientId = a.PatientId,
+                    Status = a.Status,
+                }).ToList() ?? new List<AppointmentVM>()
             };
         }
 

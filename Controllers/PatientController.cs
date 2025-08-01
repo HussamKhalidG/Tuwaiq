@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Website1.Models;
 using Website1.ViewModels;
 
 namespace Website1.Controllers
 {
+    [Authorize]
     public class PatientController : Controller
     {
 
@@ -46,12 +49,16 @@ namespace Website1.Controllers
         public IActionResult Pdetails(int ID)
         {
 
-            var Patient = context.Patients.FirstOrDefault(p => p.Id == ID);
-            if (Patient == null)
+            var patient = context.Patients
+                                        .Include(p => p.Appointments)
+                                        .ThenInclude(a => a.Doctor)
+                                        .FirstOrDefault(p => p.Id == ID);
+            if (patient == null)
             {
                 return NotFound();
             }
-            return View(Patient);
+            var patientVM = patient.ToPatientVM();
+            return View(patientVM);
         }
 
         public IActionResult Create()

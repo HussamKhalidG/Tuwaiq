@@ -1,4 +1,4 @@
-﻿@model Patient
+﻿@model PatientVM
 
 <h1>Patient Details</h1>
 <h4>
@@ -10,3 +10,25 @@
 <p>
     <strong>National ID:</strong> @Model.NationalId
 </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Appointment Date</th>
+                <th scope="col">Doctor Name</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in Model.Appointments)
+            {
+                <tr>
+                    <td>@p.Id</td>
+                    <td>@p.AppointmentDate.ToString("dd-MMM-yyyy HH:mm")</td>
+                    <td>@p.DoctorId</td>
+                    <td>@p.Status</td>
+                </tr>
+            }
+        </tbody>
+    </table>
